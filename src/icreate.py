@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import roslib; roslib.load_manifest('create_cont')
+import roslib; roslib.load_manifest('icreate_controller')
 import rospy
 from irobot_create_2_1.srv import *
 from irobot_create_2_1.msg import *

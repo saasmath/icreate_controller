@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import roslib; roslib.load_manifest('create_interface')
+import roslib; roslib.load_manifest('icreate_controller')
 import rospy
 from icreate import iCreate
 

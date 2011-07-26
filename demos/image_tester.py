@@ -1,4 +1,4 @@
-import roslib; roslib.load_manifest('create_cont')
+import roslib; roslib.load_manifest('icreate_controller')
 import rospy
 from std_msgs.msg import String
 import sys
