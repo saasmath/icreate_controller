@@ -30,7 +30,10 @@ class iCreate:
     self._imageInput = imageTopic
     self._cvBridge = CvBridge()
     self._imageSub = rospy.Subscriber(self._imageInput,Image,self._imagesubcall)
-    self.currFrame = None
+    self._currFrame = None
+    self._skipframes = True #frame skipping variables
+    self._numFrameSkip = 3
+    self._currFrame = 1
     
     #setup sensor subscriber
     self._initSensors = False
@@ -61,16 +64,20 @@ class iCreate:
   def _imagesubcall(self,image): 
     """
       image subscribler callback
-    """
-    try:
-      #turn image message into iplimage
-      cvImage = self._cvBridge.imgmsg_to_cv(image, "bgr8")
-      self.currFrame = cvImage
-      #send image data to exterior callback if it exists
-      if(self._imagecall!=None): 
-        self._imagecall(self,cvImage)
-    except CvBridgeError, e:
-      print "Failed to convert image: %s" %e
+    """    
+    if(self._numFrameSkip==self._currFrame or not(self._skipframes)):
+      self._currFrame = 1
+      try:
+        #turn image message into iplimage
+        cvImage = self._cvBridge.imgmsg_to_cv(image, "bgr8")
+        self._currFrame = cvImage
+        #send image data to exterior callback if it exists
+        if(self._imagecall!=None): 
+          self._imagecall(self,cvImage)
+      except CvBridgeError, e:
+        print "Failed to convert image: %s" %e
+    else:
+      self._currFrame += 1
   
   #================================  
   def _sensorsubcall(self,data): 
@@ -164,6 +171,12 @@ class iCreate:
     for key, value in self._sensors.iteritems():
       print key,":", value
   
+  def getCurrentVideoFrame(self):
+    """
+      return the current frame of video as a cv mat
+    """
+    return self._currFrame
+  
   #================================  
   def brake(self): 
     """
@@ -252,28 +265,19 @@ class iCreate:
     self.move(speed)
     time.sleep(duration)
     self.brake()
-  
-  #================================  
-  def turnAngle(self,angle,speed=130): 
-    """
-      turn the icreate to the given angle with input speed
-        angle-relative angle in degrees that the icreate will rotate 
-        speed-icreate velocity, between -500mm/s(counter-clockwise) and 500mm/s(clockwise)
-    """ 
-    #hardcoded formula for turn duration given angle, based off 100mm/s
-    duration = angle*.0240*100.0/speed
-    self.turnFor(duration,speed)
-  
+    
   #================================
-  def moveDistance(self,distance,speed=130): 
+  def tankFor(self,duration,left,right): 
     """
-      move the icreate a given distance forward or backward with a input speed
-        distance-absolute distance in meters
-        speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
+      move the icreate with input speeds to each wheel for input duration then brake
+        duration-turning time in seconds
+        left-icreate left wheel velocity, between -500mm/s(backward) and 500mm/s(forward)
+        right-icreate right wheel velocity, between -500mm/s(backward) and 500mm/s(forward)
     """
-    duration = distance*1000/speed
-    self.moveFor(duration,speed)
-  
+    self.tank(left,right)
+    time.sleep(duration)
+    self.brake()
+    
   #================================
   def turnUntil(self,condition,speed=130): 
     """
@@ -297,7 +301,40 @@ class iCreate:
     while (not condition(self)):
       pass
     self.brake()
-
+  
+  #================================
+  def tankUntil(self,condition,left,right): 
+    """
+      move the icreate with input speeds to each wheel until the condition function returns true, then brake
+        condition-input function that is given the icreate as its parameter
+        left-icreate left wheel velocity, between -500mm/s(backward) and 500mm/s(forward)
+        right-icreate right wheel velocity, between -500mm/s(backward) and 500mm/s(forward)
+    """
+    self.tank(left,right)
+    while (not condition(self)):
+      pass
+    self.brake()
+    
+  #================================  
+  def turnAngle(self,angle,speed=130): 
+    """
+      turn the icreate to the given angle with input speed
+        angle-absolute relative angle in degrees that the icreate will rotate 
+        speed-icreate velocity, between -500mm/s(counter-clockwise) and 500mm/s(clockwise)
+    """ 
+    #hardcoded formula for turn duration given angle, based off 100mm/s
+    duration = angle*.0240*100.0/abs(speed)
+    self.turnFor(duration,speed)
+  
+  #================================
+  def moveDistance(self,distance,speed=130): 
+    """
+      move the icreate a given distance forward or backward with a input speed
+        distance-absolute distance in meters
+        speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
+    """
+    duration = distance*1000/speed
+    self.moveFor(duration,speed)
 
 
 #==============================================================
