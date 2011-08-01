@@ -17,6 +17,7 @@
   <depend package="image_transport"/>
   <depend package="cminpack"/>
   <depend package="flann"/>
+  <depend package="uvc_cam2"/>
 </package>
 
 
