@@ -8,24 +8,28 @@ def setMovement(command,create,speed):
   if(command==ord('w')):
     create.move(speed)    
   elif(command==ord('a')):
-    create.turn(speed)
+    create.turn(-speed)
   elif(command==ord('s')):
     create.move(-speed)
   elif(command==ord('d')):
-    create.turn(-speed)
+    create.turn(speed)
 
 if __name__ == '__main__':
   screen = curses.initscr()
   speed = 70
   currMove = ''
+  screen.border(0)
+  screen.addstr(3,3,"Use wasd to move create")
+  screen.addstr(4,3,"Use f to brake")
+  screen.addstr(5,3,"Use z and x to decrease and increases speeds")
+  screen.addstr(6,3,"Use ctrl+c to quit")
+  curses.noecho()
+  screen.refresh()
   create = iCreate()
   while not rospy.is_shutdown():
     inp = screen.getch()
-    #quit
-    if(inp==ord('q')):
-      exit()
     #icreate movement
-    elif(inp==ord('w') or inp==ord('a') or inp==ord('s') or inp==ord('d')):
+    if(inp==ord('w') or inp==ord('a') or inp==ord('s') or inp==ord('d')):
       setMovement(inp,create,speed)
       currMove = inp
     #icreate brake
