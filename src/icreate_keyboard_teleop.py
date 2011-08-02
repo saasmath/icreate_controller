@@ -37,7 +37,7 @@ if __name__ == '__main__':
       speed = speed-10 if (speed-10)>=50 else speed
       setMovement(currMove,create,speed)
     elif(inp==ord('x')):
-      speed = speed-10 if (speed-10)>=50 else speed
+      speed = speed+10 if (speed-10)>=50 else speed
       setMovement(currMove,create,speed)
   
   curses.endwin()
