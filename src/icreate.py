@@ -33,7 +33,7 @@ class iCreate:
     self._currFrame = None
     self._skipframes = True #frame skipping variables
     self._numFrameSkip = 3
-    self._currFrame = 1
+    self._currFrameNum = 1
     
     #setup sensor subscriber
     self._initSensors = False
@@ -65,8 +65,8 @@ class iCreate:
     """
       image subscribler callback
     """    
-    if(self._numFrameSkip==self._currFrame or not(self._skipframes)):
-      self._currFrame = 1
+    if(self._numFrameSkip==self._currFrameNum or not(self._skipframes)):
+      self._currFrameNum = 1
       try:
         #turn image message into iplimage
         cvImage = self._cvBridge.imgmsg_to_cv(image, "bgr8")
@@ -77,7 +77,7 @@ class iCreate:
       except CvBridgeError, e:
         print "Failed to convert image: %s" %e
     else:
-      self._currFrame += 1
+      self._currFrameNum += 1
   
   #================================  
   def _sensorsubcall(self,data): 
