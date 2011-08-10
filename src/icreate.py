@@ -171,6 +171,7 @@ class iCreate:
     for key, value in self._sensors.iteritems():
       print key,":", value
   
+  #================================  
   def getCurrentVideoFrame(self):
     """
       return the current frame of video as a cv mat
@@ -242,7 +243,25 @@ class iCreate:
       response = srvc(False,int(left),int(right))
       return response.success
     except rospy.ServiceException, e:
-      print "Failed to call move: %s" %e
+      print "Failed to call tank: %s" %e
+
+  #================================  
+  def circle(self,speed,radius):
+    """
+      make the icreate move in a circle by turning in proportion to the input circle radius by calling circle service on icreate driver using input speed
+        radius-radius of circle the icreate will turn around, in mm
+        speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
+    """
+    rospy.wait_for_service('circle')
+    try:
+      #call service with parameters
+      #constrain speed
+      speed = -500 if speed<-500 else (500 if speed>500 else speed)
+      srvc = rospy.ServiceProxy('circle', Circle)
+      response = srvc(False,int(speed),int(radius))
+      return response.success
+    except rospy.ServiceException, e:
+      print "Failed to call circle: %s" %e
   
   #================================
   def turnFor(self,duration,speed): 
@@ -277,7 +296,19 @@ class iCreate:
     self.tank(left,right)
     time.sleep(duration)
     self.brake()
-    
+  
+  #================================
+  def circleFor(self,duration,speed,radius): 
+    """
+      make the icreate move in a circle by turning in proportion to input circle radius for input duration then brake
+        duration-turning time in seconds        
+        radius-radius of circle the icreate will turn around, in mm
+        speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
+    """
+    self.circle(speed,radius)
+    time.sleep(duration)
+    self.brake()
+  
   #================================
   def turnUntil(self,condition,speed=130): 
     """
@@ -289,7 +320,7 @@ class iCreate:
     while (not condition(self)):
       pass
     self.brake()
-  
+
   #================================  
   def moveUntil(self,condition,speed=130): 
     """
@@ -314,7 +345,20 @@ class iCreate:
     while (not condition(self)):
       pass
     self.brake()
-    
+  
+  #================================
+  def circleUntil(self,condition,speed,radius): 
+    """
+      make the icreate move in a circle by turning in proportion to input circle radius until the condition function returns true, then brake
+        condition-input function that is given the icreate as its parameter
+        radius-radius of circle the icreate will turn around, in mm
+        speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
+    """
+    self.circle(speed,radius)
+    while (not condition(self)):
+      pass
+    self.brake()
+  
   #================================  
   def turnAngle(self,angle,speed=130): 
     """
