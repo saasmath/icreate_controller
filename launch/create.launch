@@ -1,5 +1,6 @@
 <launch>
   <node name="icreate_driver" pkg="irobot_create_2_1" type="driver.py" />
+  <node name="icreate_watcher" pkg="icreate_controller" type="icreate_watcher.py" />
   <node pkg="uvc_cam2" type="sender" name="uvc_cam2" output="screen">
     <param name="width" type="int" value="160" />
     <param name="height" type="int" value="120" />

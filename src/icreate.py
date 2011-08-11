@@ -20,8 +20,8 @@ class iCreate:
   def __init__(self,sensorCallBack=None,imageCallBack=None,imageTopic="/camera/image_raw"): 
     """
       initialize a new icreate and start its ROS node along with its subsribers and services
-        sensorCallBack-the callback that is used when new sensor data is received
-        imageCallBack-the callback that is used when new image data is received
+        sensorCallBack-the callback function that is used when new sensor data is received
+        imageCallBack-the callback function that is used when new image data is received
         imageTopic-the image topic subcribed to
     """
     #start ros node and services
@@ -71,7 +71,7 @@ class iCreate:
     self.brake()
     if(type(reason)==type("")):
       rospy.signal_shutdown(reason)
-    else
+    else:
       rospy.signal_shutdown(reason.reason)
       
   def setShutdownFunction(self,func):
