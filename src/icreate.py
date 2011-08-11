@@ -75,7 +75,7 @@ class iCreate:
       rospy.loginfo(reason)
     else:
       rospy.loginfo(reason.reason)
-    if(self._shutdownFunc != None)
+    if(self._shutdownFunc != None):
       shutdownFunc()
     sys.exit()
   
