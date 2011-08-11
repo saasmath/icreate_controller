@@ -49,7 +49,7 @@ if __name__ == '__main__':
   while not rospy.is_shutdown():
     #check if icreate node is  active, if not then brake
     try:
-      rospy.wait_for_service('icreate_shutdown',2)
+      rospy.wait_for_service('icreate_shutdown',5)
     except rospy.ROSException, e:
       _iCreateDriverBrake()
     
