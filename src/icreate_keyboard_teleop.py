@@ -28,7 +28,7 @@ def setMovement(command,create,speed):
 
 if __name__ == '__main__':
   screen = curses.initscr()
-  speed = 70
+  speed = 100
   currMove = ''
   #set up screen instructions
   screen.border(0)
@@ -43,17 +43,19 @@ if __name__ == '__main__':
     inp = screen.getch() #get input
     #icreate movement
     if(inp==ord('w') or inp==ord('a') or inp==ord('s') or inp==ord('d')):
-      setMovement(inp,create,speed)
-      currMove = inp
+      if(currMove != inp):
+        setMovement(inp,create,speed)
+        currMove = inp
     #icreate brake
     elif(inp==ord('f')):
-      create.brake()
-      currMove = inp
+      if(currMove != inp):
+        create.brake()
+        currMove = inp  
     #speed control
     elif(inp==ord('z')):
-      speed = speed-10 if (speed-10)>=50 else speed
+      speed = speed-10 if (speed-10)>=60 else speed
       setMovement(currMove,create,speed)
     elif(inp==ord('x')):
-      speed = speed+10 if (speed+10)<=140 else speed
+      speed = speed+10 if (speed+10)<=160 else speed
       setMovement(currMove,create,speed)
   curses.endwin()
