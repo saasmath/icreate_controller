@@ -27,6 +27,7 @@ class iCreate:
     #start ros node and services
     rospy.init_node('iCreateController')
     self._shutdownservice = rospy.Service('icreate_shutdown', iCreateShutdown, self._iCreateShutdown)
+    self._shutdownFunc = None 
     
     #setup image subscriber
     self._imagecall = imageCallBack
@@ -34,7 +35,7 @@ class iCreate:
     self._cvBridge = CvBridge()
     self._imageSub = rospy.Subscriber(self._imageInput,Image,self._imagesubcall)
     self._currFrame = None
-    self._skipframes = True #frame skipping variables
+    self._skipframes = False #frame skipping variables
     self._numFrameSkip = 3
     self._currFrameNum = 1
     
@@ -63,6 +64,7 @@ class iCreate:
     while(not self._initSensors): 
       pass #wait till create driver pushes sensor data
   
+  #================================  
   def _iCreateShutdown(self,reason):
     """
       iCreate node global shutdown service that can be called as ros service or an internal function, exits program
@@ -70,16 +72,20 @@ class iCreate:
     """
     self.brake()
     if(type(reason)==type("")):
-      rospy.signal_shutdown(reason)
+      rospy.loginfo(reason)
     else:
-      rospy.signal_shutdown(reason.reason)
-      
+      rospy.loginfo(reason.reason)
+    if(self._shutdownFunc != None)
+      shutdownFunc()
+    sys.exit()
+  
+  #================================      
   def setShutdownFunction(self,func):
     """
       Set the function that will be activated before the iCreate node is shutdown due to an issue
         func-input function that will be set as the ros shutdown function
     """
-    rospy.on_shutdown(func)
+    self._shutdownFunc = func
   
   #================================  
   def _imagesubcall(self,image): 
@@ -204,7 +210,7 @@ class iCreate:
   def toggleFrameSkipping(self,toggle):
     """
       If toggle true, then input video is assumed at 30 fps and frames are skipped to make it 10 fps
-      If toggle false, then input video is used as is without skipping frames
+      If toggle false, then input video is used as is without skipping frames, Starts out false
         toggle-input boolean for skipping frames
     """
     self._skipFrames = toggle

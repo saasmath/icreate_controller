@@ -16,7 +16,7 @@ import curses
 """
 
 #change icreate movement with input command
-def setMovement(command,create,speed):
+def _setMovement(command,create,speed):
   if(command==ord('w')):
     create.move(speed)    
   elif(command==ord('a')):
@@ -44,7 +44,7 @@ if __name__ == '__main__':
     #icreate movement
     if(inp==ord('w') or inp==ord('a') or inp==ord('s') or inp==ord('d')):
       if(currMove != inp):
-        setMovement(inp,create,speed)
+        _setMovement(inp,create,speed)
         currMove = inp
     #icreate brake
     elif(inp==ord('f')):
@@ -54,8 +54,8 @@ if __name__ == '__main__':
     #speed control
     elif(inp==ord('z')):
       speed = speed-10 if (speed-10)>=60 else speed
-      setMovement(currMove,create,speed)
+      _setMovement(currMove,create,speed)
     elif(inp==ord('x')):
       speed = speed+10 if (speed+10)<=160 else speed
-      setMovement(currMove,create,speed)
+      _setMovement(currMove,create,speed)
   curses.endwin()

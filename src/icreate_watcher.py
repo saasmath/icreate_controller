@@ -16,7 +16,7 @@ from irobot_create_2_1.msg import *
 """
 
 #stop icreate by calling brake service on icreate driver
-def iCreateDriverBrake():
+def _iCreateDriverBrake():
   rospy.wait_for_service('brake')
   try:
     #call service with parameters
@@ -27,7 +27,7 @@ def iCreateDriverBrake():
     print "Failed to call brake: %s" %e  
 
 #stop icreate node program by calling icreate_shutdown service on node
-def iCreateNodeShutdown(reason):
+def _iCreateNodeShutdown(reason):
   rospy.wait_for_service('icreate_shutdown')
   try:
     #call service with parameters
@@ -37,19 +37,19 @@ def iCreateNodeShutdown(reason):
     print "Failed to call icreate_shutdown: %s" %e  
 
 #callback for sensor data from icreate
-def sensorCallback(data):
+def _sensorCallback(data):
   if(data.wheeldropLeft == True or data.wheeldropRight == True):
-    iCreateNodeShutdown("iCreate wheels have dropped")
-    iCreateDriverBrake()
+    _iCreateNodeShutdown("iCreate wheels have dropped")
+    _iCreateDriverBrake()
 
 if __name__ == '__main__':
   #start up ros node and subscriber
   rospy.init_node('iCreateWatcher')
-  sensorWatch = rospy.Subscriber("sensorPacket",SensorPacket,sensorCallback)
+  sensorWatch = rospy.Subscriber("sensorPacket",SensorPacket,_sensorCallback)
   while not rospy.is_shutdown():
     #check if icreate node is  active, if not then brake
     try:
       rospy.wait_for_service('icreate_shutdown',2)
     except rospy.ROSException, e:
-      iCreateDriverBrake()
+      _iCreateDriverBrake()
     
