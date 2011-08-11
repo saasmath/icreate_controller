@@ -4,6 +4,7 @@ import rospy
 from irobot_create_2_1.srv import *
 from irobot_create_2_1.msg import *
 from std_msgs.msg import String
+from icreate_controller.srv import *
 import sys
 import time 
 import cv
@@ -23,7 +24,9 @@ class iCreate:
         imageCallBack-the callback that is used when new image data is received
         imageTopic-the image topic subcribed to
     """
+    #start ros node and services
     rospy.init_node('iCreateController')
+    self._shutdownservice = rospy.Service('icreate_shutdown', iCreateShutdown, self._iCreateShutdown)
     
     #setup image subscriber
     self._imagecall = imageCallBack
@@ -60,13 +63,32 @@ class iCreate:
     while(not self._initSensors): 
       pass #wait till create driver pushes sensor data
   
+  def _iCreateShutdown(self,reason):
+    """
+      iCreate node global shutdown service that can be called as ros service or an internal function, exits program
+        reason-either a string or ros service message that dictates the cause of shutdown
+    """
+    self.brake()
+    if(type(reason)==type("")):
+      rospy.signal_shutdown(reason)
+    else
+      rospy.signal_shutdown(reason.reason)
+      
+  def setShutdownFunction(self,func):
+    """
+      Set the function that will be activated before the iCreate node is shutdown due to an issue
+        func-input function that will be set as the ros shutdown function
+    """
+    rospy.on_shutdown(func)
+  
   #================================  
   def _imagesubcall(self,image): 
     """
       image subscribler callback
     """    
+    #skip 30fps down to 10 fps
     if(self._numFrameSkip==self._currFrameNum or not(self._skipframes)):
-      self._currFrameNum = 1
+      self._currFrameNum = 1 #frame skips
       try:
         #turn image message into iplimage
         cvImage = self._cvBridge.imgmsg_to_cv(image, "bgr8")
@@ -177,6 +199,15 @@ class iCreate:
       return the current frame of video as a cv mat
     """
     return self._currFrame
+  
+  #================================
+  def toggleFrameSkipping(self,toggle):
+    """
+      If toggle true, then input video is assumed at 30 fps and frames are skipped to make it 10 fps
+      If toggle false, then input video is used as is without skipping frames
+        toggle-input boolean for skipping frames
+    """
+    self._skipFrames = toggle
   
   #================================  
   def brake(self): 
