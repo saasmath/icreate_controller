@@ -400,22 +400,22 @@ class iCreate:
   def turnAngle(self,angle,speed=130): 
     """
       turn the icreate to the given angle with input speed
-        angle-absolute relative angle in degrees that the icreate will rotate 
-        speed-icreate velocity, between -500mm/s(counter-clockwise) and 500mm/s(clockwise)
+        angle-relative angle in degrees that the icreate will rotate 
+        speed-icreate absolute velocity, between 0mm/s and 500mm/s
     """ 
     #hardcoded formula for turn duration given angle, based off 100mm/s
     duration = abs(angle*.0240*100.0/abs(speed))
-    self.turnFor(duration,speed)
+    self.turnFor(duration,(angle/abs(angle))speed)
   
   #================================
   def moveDistance(self,distance,speed=130): 
     """
       move the icreate a given distance forward or backward with a input speed
-        distance-absolute distance in meters
-        speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
+        distance-relative distance in meters
+        speed-icreate absolute velocity, between 0mm/s and 500mm/s
     """
     duration = abs(distance*1000/speed)
-    self.moveFor(duration,speed)
+    self.moveFor(duration,(distance/abs(distance))speed)
 
 
 #==============================================================
