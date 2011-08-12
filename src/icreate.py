@@ -184,7 +184,7 @@ class iCreate:
       self._sensorcall(self,sensorID,value)
   
   #================================  
-  def sensor(self,sensor_type): 
+  def sensor(self,sensorname): 
     """
       returns the sensor value for input sensorname, if it isn't a sensor returns None
         sensorname-the name of the sensor used
