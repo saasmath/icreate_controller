@@ -405,7 +405,7 @@ class iCreate:
     """ 
     #hardcoded formula for turn duration given angle, based off 100mm/s
     duration = abs(angle*.0240*100.0/abs(speed))
-    self.turnFor(duration,(angle/abs(angle))speed)
+    self.turnFor(duration,(angle/abs(angle))*speed)
   
   #================================
   def moveDistance(self,distance,speed=130): 
@@ -415,7 +415,7 @@ class iCreate:
         speed-icreate absolute velocity, between 0mm/s and 500mm/s
     """
     duration = abs(distance*1000/speed)
-    self.moveFor(duration,(distance/abs(distance))speed)
+    self.moveFor(duration,(distance/abs(distance))*speed)
 
 
 #==============================================================
