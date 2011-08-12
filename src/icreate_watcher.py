@@ -33,6 +33,7 @@ def _iCreateNodeShutdown(reason):
     #call service with parameters
     srvc = rospy.ServiceProxy('icreate_shutdown', iCreateShutdown)
     response = srvc(reason)
+    rospy.sleep(2)
   except rospy.ServiceException, e:
     print "Failed to call icreate_shutdown: %s" %e  
 
