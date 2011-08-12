@@ -404,7 +404,7 @@ class iCreate:
         speed-icreate velocity, between -500mm/s(counter-clockwise) and 500mm/s(clockwise)
     """ 
     #hardcoded formula for turn duration given angle, based off 100mm/s
-    duration = angle*.0240*100.0/abs(speed)
+    duration = abs(angle*.0240*100.0/abs(speed))
     self.turnFor(duration,speed)
   
   #================================
@@ -414,7 +414,7 @@ class iCreate:
         distance-absolute distance in meters
         speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
     """
-    duration = distance*1000/speed
+    duration = abs(distance*1000/speed)
     self.moveFor(duration,speed)
 
 
