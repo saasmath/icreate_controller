@@ -41,10 +41,10 @@ def _iCreateNodeShutdown(reason):
 #callback for sensor data from icreate
 def _sensorCallback(data):
   #emergency situations
-  if((data.wheeldropLeft or data.wheeldropRight) == True):
+  if(data.wheeldropLeft or data.wheeldropRight):
     _iCreateNodeShutdown("iCreate wheels have dropped")
     _iCreateDriverBrake()
-  elif((data.cliffLeft or data.cliffFronLeft or data.cliffFrontRight or data.cliffRight) == True):
+  elif(data.cliffLeft or data.cliffFronLeft or data.cliffFrontRight or data.cliffRight):
     _iCreateNodeShutdown("iCreate cliff sensors activated")
     _iCreateDriverBrake()
 
@@ -55,7 +55,7 @@ if __name__ == '__main__':
   while not rospy.is_shutdown():
     #check if icreate node is  active, if not then brake
     try:
-      rospy.wait_for_service('icreate_shutdown',5)
+      rospy.wait_for_service('icreate_shutdown',3)
     except rospy.ROSException, e:
       _iCreateDriverBrake()
     
