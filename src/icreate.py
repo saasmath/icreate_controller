@@ -405,8 +405,11 @@ class iCreate:
         speed-icreate absolute velocity, between 0mm/s and 500mm/s
     """ 
     #hardcoded formula for turn duration given angle, based off 100mm/s
-    duration = abs(angle*.0240*100.0/abs(speed))
-    self.turnFor(duration,(angle/abs(angle))*speed)
+    #duration = abs(angle*.0240*100.0/abs(speed))
+    #self.turnFor(duration,(angle/abs(angle))*speed)
+    curr_angle = _sensors["angle"]
+    angTurn = 1 if angle>curr_angle else -1
+    self.turnFor((lambda(c):abs(c.sensors["angle"] - curr_angle) >= abs(angle)),angTurn*speed)
   
   #================================
   def moveDistance(self,distance,speed=130): 
