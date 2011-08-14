@@ -398,13 +398,11 @@ class iCreate:
     while (not condition(self)):
       pass
     self.brake()
-  
-  def _turnAngleBraker(self):
-    self._brake_called=True
-    self.brake()
-  
-  def _turnAngleHelper(self,sangle,eangle):
-    return (lambda(self,key,val): if (key=="angle" and abs(val-sangle)>=abs(eangle)): return self._brake_called=True)
+    
+  def _turnAngleHelper(self,key,val,sangle,eangle):
+    if (key=="angle" and abs(val-sangle)>=abs(eangle)): 
+      self.brake()
+      self._brake_called=True
     
   #================================  
   def turnAngle(self,angle,speed=130): 
@@ -420,10 +418,9 @@ class iCreate:
     self._brake_called = False
     angTurn = 1 if angle>start_angle else -1
 #    self.turnUntil((lambda(c):abs(c.sensor("angle") - curr_angle) >= abs(angle)),angTurn*speed)
-    self._innersensorcall = self._turnAngleHelper(start_angle,angle)
+    self._innersensorcall = lambda(self,key,val): self._turnAngleHelper(key,val,start_angle,angle)
     while(not self._brake_called):
       pass
-    self.brake()
     self._innersensorcall = None
   
   #================================
