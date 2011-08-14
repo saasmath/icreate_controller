@@ -397,9 +397,9 @@ class iCreate:
     self.brake()
   
   #================================  
-  def turnAngle(self,angle,speed=130): 
+  def turnAngle(self,angle,speed=50): 
     """
-      turn the icreate to the given angle with input speed
+      turn the icreate to the given angle with input speed, higher speed increases angle error
         angle-relative angle in degrees that the icreate will rotate 
         speed-icreate absolute velocity, between 0mm/s and 500mm/s
     """ 
