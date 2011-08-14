@@ -404,7 +404,7 @@ class iCreate:
     self.brake()
   
   def _turnAngleHelper(self,sangle,eangle):
-    return (lambda(self,key,val): return self._brake_called=True if (key=="angle" and abs(val-sangle)>=abs(eangle)))
+    return (lambda(self,key,val): if (key=="angle" and abs(val-sangle)>=abs(eangle)): return self._brake_called=True)
     
   #================================  
   def turnAngle(self,angle,speed=130): 
