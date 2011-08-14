@@ -413,9 +413,7 @@ class iCreate:
     self._end_angle = angle
     angTurn = 1 if angle>curr_angle else -1
 #    self.turnUntil((lambda(c):abs(c.sensor("angle") - curr_angle) >= abs(angle)),angTurn*speed)
-    self._innersensorcall = lambda(cre,key,val): 
-                              if(key=="angle" and abs(val-self._temp_angle)>=abs(_end_angle)):
-                                self.brake()
+    self._innersensorcall = lambda(cre,key,val): if(key=="angle" and abs(val-self._temp_angle)>=abs(_end_angle)): self.brake()
   
   #================================
   def moveDistance(self,distance,speed=130): 
