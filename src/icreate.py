@@ -402,7 +402,7 @@ class iCreate:
   def _turnAngleHelper(self,key,val,sangle,eangle):
     if (key=="angle" and abs(val-sangle)>=abs(eangle)): 
       self.brake()
-      self._brake_called=True
+    print key,val,sangle,eangle
     
   #================================  
   def turnAngle(self,angle,speed=130): 
@@ -412,15 +412,14 @@ class iCreate:
         speed-icreate absolute velocity, between 0mm/s and 500mm/s
     """ 
     #hardcoded formula for turn duration given angle, based off 100mm/s
-    #duration = abs(angle*.0240*100.0/abs(speed))
+    duration = abs(angle*.0242*100.0/abs(speed))
     #self.turnFor(duration,(angle/abs(angle))*speed)
     start_angle = self.sensor("angle")
     self._brake_called = False
     angTurn = 1 if angle>start_angle else -1
 #    self.turnUntil((lambda(c):abs(c.sensor("angle") - curr_angle) >= abs(angle)),angTurn*speed)
     self._innersensorcall = lambda(self,key,val): self._turnAngleHelper(key,val,start_angle,angle)
-    while(not self._brake_called):
-      pass
+    rospy.sleep(duration)
     self._innersensorcall = None
   
   #================================
