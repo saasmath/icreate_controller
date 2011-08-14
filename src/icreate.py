@@ -408,7 +408,7 @@ class iCreate:
     #self.turnFor(duration,(angle/abs(angle))*speed)
     curr_angle = self._sensors["angle"]
     angTurn = 1 if angle>curr_angle else -1
-    self.turnFor((lambda(c):abs(c.sensors["angle"] - curr_angle) >= abs(angle)),angTurn*speed)
+    self.turnUntil((lambda(c):abs(c.sensors["angle"] - curr_angle) >= abs(angle)),angTurn*speed)
   
   #================================
   def moveDistance(self,distance,speed=130): 
