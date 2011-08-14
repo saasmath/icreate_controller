@@ -42,7 +42,6 @@ class iCreate:
     #setup sensor subscriber
     self._initSensors = False
     self._sensorcall = sensorCallBack
-    self._innersensorcall = None
     self._sensorSub = rospy.Subscriber("sensorPacket",SensorPacket,self._sensorsubcall)
     #initial empty sensor table
     self._sensors = {
@@ -183,8 +182,6 @@ class iCreate:
     #send sensor data to exterior callback if it exists
     if(self._sensorcall!=None):
       self._sensorcall(self,sensorID,value)
-    if(self._innersensorcall!=None):
-      self._innersensorcall(self,sensorID,value)
   
   #================================  
   def sensor(self,sensorname): 
@@ -398,12 +395,7 @@ class iCreate:
     while (not condition(self)):
       pass
     self.brake()
-    
-  def _turnAngleHelper(self,key,val,sangle,eangle):
-    if (key=="angle" and abs(val-sangle)>=abs(eangle)): 
-      self.brake()
-    print key,val,sangle,eangle
-    
+  
   #================================  
   def turnAngle(self,angle,speed=130): 
     """
@@ -412,19 +404,8 @@ class iCreate:
         speed-icreate absolute velocity, between 0mm/s and 500mm/s
     """ 
     #hardcoded formula for turn duration given angle, based off 100mm/s
-    duration = abs(angle*.0242*100.0/abs(speed))
-    #self.turnFor(duration,(angle/abs(angle))*speed)
-    start_angle = self.sensor("angle")
-    self._brake_called = False
-    angTurn = 1 if angle>start_angle else -1
-#    self.turnUntil((lambda(c):abs(c.sensor("angle") - curr_angle) >= abs(angle)),angTurn*speed)
-    self._innersensorcall = lambda(self,key,val): self._turnAngleHelper(key,val,start_angle,angle)
-    print 2
-    try:
-      rospy.wait_for_service("blah",duration)
-    except rospy.ServiceException, e:
-      pass
-    self._innersensorcall = None
+    duration = abs(angle*.0239*100.0/abs(speed))
+    self.turnFor(duration,(angle/abs(angle))*speed)
   
   #================================
   def moveDistance(self,distance,speed=130): 
