@@ -189,10 +189,7 @@ class iCreate:
       returns the sensor value for input sensorname, if it isn't a sensor returns None
         sensorname-the name of the sensor used
     """
-    if sensorname in self._sensors.keys():
-      return self._sensors[sensorname]
-    else:
-      return None
+    return self._sensors[sensorname] if sensorname in self._sensors else None
   
   #================================  
   def printSensors(self): 
@@ -409,9 +406,9 @@ class iCreate:
     #hardcoded formula for turn duration given angle, based off 100mm/s
     #duration = abs(angle*.0240*100.0/abs(speed))
     #self.turnFor(duration,(angle/abs(angle))*speed)
-    curr_angle = self._sensors["angle"]
+    curr_angle = self.sensor("angle")
     angTurn = 1 if angle>curr_angle else -1
-    self.turnUntil((lambda(c):abs(c.sensor["angle"] - curr_angle) >= abs(angle)),angTurn*speed)
+    self.turnFor((lambda(c):abs(c.sensors("angle") - curr_angle) >= abs(angle)),angTurn*speed)
   
   #================================
   def moveDistance(self,distance,speed=130): 
