@@ -184,7 +184,7 @@ class iCreate:
     if(self._sensorcall!=None):
       self._sensorcall(self,sensorID,value)
     if(self._innersensorcall!=None):
-      self._innersensorcall(self,sensorID,value)
+      self._innersensorcall(sensorID,value)
   
   #================================  
   def sensor(self,sensorname): 
