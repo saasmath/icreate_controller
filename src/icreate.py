@@ -419,7 +419,10 @@ class iCreate:
     angTurn = 1 if angle>start_angle else -1
 #    self.turnUntil((lambda(c):abs(c.sensor("angle") - curr_angle) >= abs(angle)),angTurn*speed)
     self._innersensorcall = lambda(self,key,val): self._turnAngleHelper(key,val,start_angle,angle)
-    rospy.sleep(duration)
+    try:
+      rospy.wait_for_service("blah",duration)
+    except rospy.ServiceException, e:
+      pass
     self._innersensorcall = None
   
   #================================
