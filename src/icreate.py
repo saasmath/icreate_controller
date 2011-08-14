@@ -42,6 +42,7 @@ class iCreate:
     #setup sensor subscriber
     self._initSensors = False
     self._sensorcall = sensorCallBack
+    self._innersensorcall = None
     self._sensorSub = rospy.Subscriber("sensorPacket",SensorPacket,self._sensorsubcall)
     #initial empty sensor table
     self._sensors = {
@@ -182,6 +183,8 @@ class iCreate:
     #send sensor data to exterior callback if it exists
     if(self._sensorcall!=None):
       self._sensorcall(self,sensorID,value)
+    if(self._innersensorcall!=None):
+      self._innersensorcall(self,sensorID,value)
   
   #================================  
   def sensor(self,sensorname): 
@@ -406,9 +409,13 @@ class iCreate:
     #hardcoded formula for turn duration given angle, based off 100mm/s
     #duration = abs(angle*.0240*100.0/abs(speed))
     #self.turnFor(duration,(angle/abs(angle))*speed)
-    curr_angle = self.sensor("angle")
+    self._temp_angle = self.sensor("angle")
+    self._end_angle = angle
     angTurn = 1 if angle>curr_angle else -1
-    self.turnUntil((lambda(c):abs(c.sensor("angle") - curr_angle) >= abs(angle)),angTurn*speed)
+#    self.turnUntil((lambda(c):abs(c.sensor("angle") - curr_angle) >= abs(angle)),angTurn*speed)
+    self._innersensorcall = lambda(cre,key,val): 
+                              if(key=="angle" and abs(val-self._temp_angle)>=abs(_end_angle)):
+                                self.brake()
   
   #================================
   def moveDistance(self,distance,speed=130): 
