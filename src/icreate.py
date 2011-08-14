@@ -419,7 +419,7 @@ class iCreate:
     self._brake_called = False
     angTurn = 1 if angle>self._temp_angle else -1
 #    self.turnUntil((lambda(c):abs(c.sensor("angle") - curr_angle) >= abs(angle)),angTurn*speed)
-    self._innersensorcall = lambda(cre,key,val): cre._turnAngleHelper(key,val)
+    self._innersensorcall = self._turnAngleHelper
     while(not self._brake_called):
       pass
     self._innersensorcall = None
