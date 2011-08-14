@@ -189,7 +189,7 @@ class iCreate:
       returns the sensor value for input sensorname, if it isn't a sensor returns None
         sensorname-the name of the sensor used
     """
-    return self._sensors[sensorname] if sensorname in self._sensors else None
+    return self._sensors[sensorname] if sensorname in self._sensors.keys() else None
   
   #================================  
   def printSensors(self): 
