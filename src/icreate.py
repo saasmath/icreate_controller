@@ -406,7 +406,7 @@ class iCreate:
     #hardcoded formula for turn duration given angle, based off 100mm/s
     #duration = abs(angle*.0240*100.0/abs(speed))
     #self.turnFor(duration,(angle/abs(angle))*speed)
-    curr_angle = self.sensors["angle"]
+    curr_angle = self.sensor["angle"]
     angTurn = 1 if angle>curr_angle else -1
     self.turnFor((lambda(c):abs(c.sensors["angle"] - curr_angle) >= abs(angle)),angTurn*speed)
   
