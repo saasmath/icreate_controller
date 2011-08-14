@@ -404,7 +404,7 @@ class iCreate:
         speed-icreate absolute velocity, between 0mm/s and 500mm/s
     """ 
     #hardcoded formula for turn duration given angle, based off 100mm/s
-    duration = abs(angle*.0235*100.0/abs(speed))
+    duration = abs(angle*.0230*100.0/abs(speed))
     self.turnFor(duration,(angle/abs(angle))*speed)
   
   #================================
