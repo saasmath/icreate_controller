@@ -473,7 +473,7 @@ def colorblobs(img,colors,showVideo=False,showDebug=False):
     the color blobs matching the input colors in the image, returns a dictionary of
     {'color':[array of blob rectangle bounds in form ((x1,y1),(x2,y2),(center of blob x, y))}
       img-input cv mat image
-      colors-input dictionary of colors in the from {'color':(r,g,b)}
+      colors-input dictionary of colors in the from {'color':(b,g,r)}
       showVideo-boolean for displaying image and blob rectangles on a cv window
       showDebug-boolean for showing color points for blobs on a cv window
   """
@@ -491,7 +491,7 @@ def colorblobs(img,colors,showVideo=False,showDebug=False):
       col = img[y*div,x*div] #current color
       #put color into color bins if they match under threshold
       for k,v in colors.iteritems():
-        diff = max(abs(v[0]-col[0],abs(v[1]-col[1]),abs(v[2]-col[2]))
+        diff = max(abs(v[0]-col[0],abs(v[1]-col[1]),abs(v[2]-col[2])))
         if(diff < thres):
           bins[k].append((x*div,y*div))
   
