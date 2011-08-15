@@ -30,27 +30,27 @@ def _iCreateDriverBrake():
 #stop icreate node program by calling icreate_shutdown service on node
 def _iCreateNodeShutdown(reason):
   try:
-    rospy.wait_for_service('icreate_shutdown',1) #wait to see if service is up
-    try:
-      #call service with parameters
-      srvc = rospy.ServiceProxy('icreate_shutdown', iCreateShutdown)
-      response = srvc(reason)
-    except rospy.ServiceException, e:
-      print "Failed to call icreate_shutdown: %s" %e  
-  except rospy.ROSException, e:
-    pass
+    #call service with parameters
+    srvc = rospy.ServiceProxy('icreate_shutdown', iCreateShutdown)
+    response = srvc(reason)
+  except rospy.ServiceException, e:
+    print "Failed to call icreate_shutdown: %s" %e  
 
 #callback for sensor data from icreate
 def _sensorCallback(data):
-  #emergency situations
-  if(data.wheeldropLeft or data.wheeldropRight):
-    _iCreateNodeShutdown("iCreate wheels have dropped")
-    _iCreateDriverBrake()
-    rospy.sleep(2)
-  elif(data.cliffLeft or data.cliffFronLeft or data.cliffFrontRight or data.cliffRight):
-    _iCreateNodeShutdown("iCreate cliff sensors activated")
-    _iCreateDriverBrake()
-    rospy.sleep(2)
+  try:
+    rospy.wait_for_service('icreate_shutdown',1) #wait to see if service is up
+    #emergency situations
+    if(data.wheeldropLeft or data.wheeldropRight):
+      _iCreateNodeShutdown("iCreate wheels have dropped")
+      _iCreateDriverBrake()
+      rospy.sleep(2)
+    elif(data.cliffLeft or data.cliffFronLeft or data.cliffFrontRight or data.cliffRight):
+      _iCreateNodeShutdown("iCreate cliff sensors activated")
+      _iCreateDriverBrake()
+      rospy.sleep(2)
+  except rospy.ROSException, e:
+    pass
 
 if __name__ == '__main__':
   #start up ros node and subscriber
