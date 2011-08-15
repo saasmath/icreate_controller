@@ -29,13 +29,16 @@ def _iCreateDriverBrake():
 
 #stop icreate node program by calling icreate_shutdown service on node
 def _iCreateNodeShutdown(reason):
-  rospy.wait_for_service('icreate_shutdown')
   try:
-    #call service with parameters
-    srvc = rospy.ServiceProxy('icreate_shutdown', iCreateShutdown)
-    response = srvc(reason)
-  except rospy.ServiceException, e:
-    print "Failed to call icreate_shutdown: %s" %e  
+    rospy.wait_for_service('icreate_shutdown',1) #wait to see if service is up
+    try:
+      #call service with parameters
+      srvc = rospy.ServiceProxy('icreate_shutdown', iCreateShutdown)
+      response = srvc(reason)
+    except rospy.ServiceException, e:
+      print "Failed to call icreate_shutdown: %s" %e  
+  except rospy.ROSException, e:
+    pass
 
 #callback for sensor data from icreate
 def _sensorCallback(data):
