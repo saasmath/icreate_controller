@@ -20,8 +20,8 @@ class iCreate:
   def __init__(self,sensorCallBack=None,imageCallBack=None,imageTopic="/camera/image_raw"): 
     """
       initialize a new icreate and start its ROS node along with its subsribers and services
-        sensorCallBack-the callback function that is used when new sensor data is received
-        imageCallBack-the callback function that is used when new image data is received
+        sensorCallBack-the callback function that is used when new sensor data is received, called with iCreate,sensor_name,sensor_value
+        imageCallBack-the callback function that is used when new image data is received, called with iCreate,camera_image
         imageTopic-the image topic subcribed to
     """
     #start ros node and services
@@ -554,5 +554,5 @@ def colorblobs(img,colors,showVideo=False,showDebug=False):
     cv.NamedWindow("Color",1)
     cv.ShowImage("Color", img)
     cv.WaitKey(3)
-  
+  return colorblobs
 

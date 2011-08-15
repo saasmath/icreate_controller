@@ -12,7 +12,7 @@ import curses
       Use wasd to move and turn the icreate
       Use f to brake
       Use z and x to decrease and increases speeds
-      Use ctrl+z to quit
+      Use ctrl+c to quit
 """
 
 #change icreate movement with input command
@@ -35,7 +35,7 @@ if __name__ == '__main__':
   screen.addstr(3,3,"Use wasd to move and turn create")
   screen.addstr(4,3,"Use f to brake")
   screen.addstr(5,3,"Use z and x to decrease and increases speeds")
-  screen.addstr(6,3,"Use ctrl+z to quit")
+  screen.addstr(6,3,"Use ctrl+c to quit")
   curses.noecho()
   screen.refresh()
   create = iCreate() #make new icreate
