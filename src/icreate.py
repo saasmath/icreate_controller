@@ -491,7 +491,7 @@ def colorblobs(img,colors,showVideo=False,showDebug=False):
       col = img[y*div,x*div] #current color
       #put color into color bins if they match under threshold
       for k,v in colors.iteritems():
-        diff = max(abs(v[0]-col[2]),abs(v[1]-col[1]),abs(v[2]-col[0]))
+        diff = max(abs(v[0]-col[0],abs(v[1]-col[1]),abs(v[2]-col[2]))
         if(diff < thres):
           bins[k].append((x*div,y*div))
   
@@ -544,11 +544,11 @@ def colorblobs(img,colors,showVideo=False,showDebug=False):
             ay = p[1]
           elif(p[1]<iy):
             iy = p[1]
-          cv.Circle(img, (p[0],p[1]), 4, (colors[k][2]/2,colors[k][1]/2,colors[k][0]/2))   
+          cv.Circle(img, (p[0],p[1]), 4, (colors[k][0]/2,colors[k][1]/2,colors[k][2]/2))   
     #show blobs on screen
     for k,v in colorblobs.iteritems():
       for b in v:
-        cv.Rectangle(img, b[0], b[1], (colors[k][2],colors[k][1],colors[k][0]))
+        cv.Rectangle(img, b[0], b[1], (colors[k][0],colors[k][1],colors[k][2]))
     #show image in cv window
     cv.NamedWindow("Color",1)
     cv.ShowImage("Color", img)
