@@ -408,10 +408,7 @@ class iCreate:
     self.turnFor(duration,(angle/abs(angle))*speed)
   
   #================================
-  def moveDistance(self,distance,speed=80):#show blobs on screen
-      for k,v in colorblobs.iteritems():
-        for b in v:
-          cv.Rectangle(img, b[0], b[1], (colors[k][2],colors[k][1],colors[k][0])) 
+  def moveDistance(self,distance,speed=80): 
     """
       move the icreate a given distance forward or backward with a input speed
         distance-relative distance in meters
@@ -551,7 +548,7 @@ def colorblobs(img,colors,showVideo=False,showDebug=False):
     #show blobs on screen
     for k,v in colorblobs.iteritems():
       for b in v:
-        cv.Rectangle(img, b[0], b[1], (colors[k][2],colors[k][1],colors[k][0]))   
+        cv.Rectangle(img, b[0], b[1], (colors[k][2],colors[k][1],colors[k][0]))
     #show image in cv window
     cv.NamedWindow("Color",1)
     cv.ShowImage("Color", img)
