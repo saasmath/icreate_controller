@@ -414,7 +414,7 @@ class iCreate:
         distance-relative distance in meters
         speed-icreate absolute velocity, between 0mm/s and 500mm/s
     """
-    duration = abs(distance*1000/speed)
+    duration = abs(distance*1000.0/speed)
     self.moveFor(duration,(distance/abs(distance))*speed)
 
 
