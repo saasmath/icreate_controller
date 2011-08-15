@@ -408,7 +408,7 @@ class iCreate:
     self.turnFor(duration,(angle/abs(angle))*speed)
   
   #================================
-  def moveDistance(self,distance,speed=70): 
+  def moveDistance(self,distance,speed=80): 
     """
       move the icreate a given distance forward or backward with a input speed
         distance-relative distance in meters
