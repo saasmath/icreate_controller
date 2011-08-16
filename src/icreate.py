@@ -454,8 +454,8 @@ def _blobrect(blob):
   cx=cy=0.0
   #get rectangle bounds
   for p in blob:
-    cx += p[0]/len(blob)
-    cy += p[1]/len(blob)
+    cx += p[0]/float(len(blob))
+    cy += p[1]/float(len(blob))
     if(p[0]>ax):
       ax = p[0]
     elif(p[0]<ix):
