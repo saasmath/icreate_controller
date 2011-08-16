@@ -486,7 +486,7 @@ def colorblobs(img,colors,maxThreshold,showVideo=False,showDebug=False):
     bins[k] = []
   
   #calculate image division by proportion to 80 by 60 image
-  div = max(1,int(38400/4/(cols*rows))) #use 1/div amount of pixels in image
+  div = max(1,int(4800/(cols*rows))) #use 1/div amount of pixels in image
   for x in range(cols/div):
     for y in range(rows/div):
       col = img[y*div,x*div] #current color
