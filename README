@@ -2,8 +2,8 @@ icreate_controller:
   A ROS python package for easy control of the actions of the iRobot Create roomba robot
 
 Installation:
-  Just use the command git pull " git://github.com/CurryBoy/icreate_controller.git " in a directory that is accessible to ROS
-  To add a directory to ROS add "ROS_PACKAGE_PATH=path_to_your_directory:$ROS_PACKAGE_PATH" to your .bashrc file
+  Just use the command git pull git://github.com/CurryBoy/icreate_controller.git  in a directory that is accessible to ROS
+  To add a directory to ROS add ROS_PACKAGE_PATH=path_to_your_directory:$ROS_PACKAGE_PATH to your .bashrc file
   
 Use:
   All the information on how to use to the package is found at https://github.com/CurryBoy/icreate_controller/wiki
