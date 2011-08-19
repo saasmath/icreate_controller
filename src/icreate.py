@@ -287,7 +287,7 @@ class iCreate:
   def circle(self,speed,radius):
     """
       make the icreate move in a circle by turning in proportion to the input circle radius by calling circle service on icreate driver using input speed
-        radius-radius of circle the icreate will turn around, in mm
+        radius-radius of circle the icreate will turn around, in mm, positive for counter-clockwise and negative for clockwise
         speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
     """
     rospy.wait_for_service('circle')
@@ -340,7 +340,7 @@ class iCreate:
     """
       make the icreate move in a circle by turning in proportion to input circle radius for input duration then brake
         duration-turning time in seconds        
-        radius-radius of circle the icreate will turn around, in mm
+        radius-radius of circle the icreate will turn around, in mm, positive for counter-clockwise and negative for clockwise
         speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
     """
     self.circle(speed,radius)
@@ -355,7 +355,7 @@ class iCreate:
         speed-icreate velocity, between -500mm/s(counter-clockwise) and 500mm/s(clockwise)
     """
     self.turn(speed)
-    while (not condition(self)):
+    while (not condition(self) and not rospy.is_shutdown()):
       pass
     self.brake()
 
@@ -367,7 +367,7 @@ class iCreate:
         speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
     """
     self.move(speed)
-    while (not condition(self)):
+    while (not condition(self) and not rospy.is_shutdown()):
       pass
     self.brake()
   
@@ -380,7 +380,7 @@ class iCreate:
         right-icreate right wheel velocity, between -500mm/s(backward) and 500mm/s(forward)
     """
     self.tank(left,right)
-    while (not condition(self)):
+    while (not condition(self) and not rospy.is_shutdown()):
       pass
     self.brake()
   
@@ -389,11 +389,11 @@ class iCreate:
     """
       make the icreate move in a circle by turning in proportion to input circle radius until the condition function returns true, then brake
         condition-input function that is given the icreate as its parameter
-        radius-radius of circle the icreate will turn around, in mm
+        radius-radius of circle the icreate will turn around, in mm, positive for counter-clockwise and negative for clockwise
         speed-icreate velocity, between -500mm/s(backward) and 500mm/s(forward)
     """
     self.circle(speed,radius)
-    while (not condition(self)):
+    while (not condition(self) and not rospy.is_shutdown()):
       pass
     self.brake()
   
