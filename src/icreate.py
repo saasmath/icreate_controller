@@ -6,6 +6,7 @@ from irobot_create_2_1.msg import *
 from std_msgs.msg import String
 from icreate_controller.srv import *
 import sys
+import os
 import time 
 import cv
 from sensor_msgs.msg import Image
@@ -77,7 +78,7 @@ class iCreate:
       rospy.loginfo(reason.reason)
     if(self._shutdownFunc != None):
       shutdownFunc()
-    sys.exit(1)
+    os._exit(1)
   
   #================================      
   def setShutdownFunction(self,func):
