@@ -467,18 +467,18 @@ def _blobrect(blob):
   return ((ix,iy),(ax,ay),(cx,cy),abs((ax-ix)*(ay-iy)))
 
 #================================
-def colorblobs(img,colors,maxThreshold,showVideo=False,showDebug=False):
+def colorblobs(img,colors,maxChannelThreshold,showVideo=False,showDebug=False):
   """
     takes in a cv image and a dictionary of colors and picks out all 
     the color blobs matching the input colors in the image, returns a dictionary of
     {'color':[array of blob rectangle bounds in form ((x1,y1),(x2,y2),(center of blob x, y),area of blob)}
       img-input cv mat image
       colors-input dictionary of colors in the from {'color':(b,g,r)}
-      maxThreshold-maximum threshold that a single channel has to differ from input color
+      maxChannelThreshold-maximum threshold that a single channel has to differ from input color
       showVideo-boolean for displaying image and blob rectangles on a cv window
       showDebug-boolean for showing color points for blobs on a cv window
   """
-  thres = maxThreshold #maximum channel error for color
+  thres = maxChannelThreshold #maximum channel error for color
   (cols,rows) = cv.GetSize(img) #image size
   #colors = {'postit':(151,126,22),'pen':(28,131,116), 'red':(225,15,15)}
   bins = {} #intial color bins
