@@ -42,10 +42,8 @@ def _sensorCallback(data):
   #emergency situations
   if(data.wheeldropLeft or data.wheeldropRight):
     _iCreateNodeShutdown("iCreate wheels have dropped")
-    rospy.sleep(2)
   elif(data.cliffLeft or data.cliffFronLeft or data.cliffFrontRight or data.cliffRight):
     _iCreateNodeShutdown("iCreate cliff sensors activated")
-    rospy.sleep(2)
 
 if __name__ == '__main__':
   #start up ros node and subscriber
