@@ -26,7 +26,7 @@ class iCreate:
     """
     #start ros node and services
     rospy.init_node('iCreateController')
-    self._shutdownservice = rospy.Service('icreate_shutdown', iCreateShutdown, self.ShutdowniCreate)
+    self._shutdownservice = rospy.Service('icreate_shutdown', iCreateShutdown, self.iCreateShutdown)
     self._shutdownFunc = None 
     
     #setup image subscriber
@@ -65,7 +65,7 @@ class iCreate:
       pass #wait till create driver pushes sensor data
   
   #================================  
-  def ShutdowniCreate(self,reason):
+  def iCreateShutdown(self,reason):
     """
       iCreate node global shutdown service that can be called as ros service or an internal function, exits program
         reason-either a string or ros service message that dictates the cause of shutdown
