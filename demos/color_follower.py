@@ -32,7 +32,7 @@ if __name__== '__main__':
   #the color is the color of a pink post-it
   #it is important to change this value as per to the enviroment of the robot
   #this could be best done using the color_finder demo.
-  colors = {"post-it_pink":(155,105,195)}
+  colors = {"post-it_pink":(168,135,211)}
   col = 160 #width of the input image
   pastDir = 1 #intial turning direction to look for blobs
   while not rospy.is_shutdown(): #while interupt is not hit
