@@ -12,7 +12,6 @@ from irobot_create_2_1.msg import *
     the icreate
     current emergency condtions:
       -either wheel lifts off the ground
-      -either of the front and side cliff sensors go off
       -icreate is moving without controller node online
 """
 
@@ -42,8 +41,8 @@ def _sensorCallback(data):
   #emergency situations
   if(data.wheeldropLeft or data.wheeldropRight):
     _iCreateNodeShutdown("iCreate wheels have dropped")
-  elif(data.cliffLeft or data.cliffFronLeft or data.cliffFrontRight or data.cliffRight):
-    _iCreateNodeShutdown("iCreate cliff sensors activated")
+  #elif(data.cliffLeft or data.cliffFronLeft or data.cliffFrontRight or data.cliffRight):
+    #_iCreateNodeShutdown("iCreate cliff sensors activated")
 
 if __name__ == '__main__':
   #start up ros node and subscriber
