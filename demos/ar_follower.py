@@ -21,7 +21,7 @@ def getClosestMarker(markers):
 
 if __name__== '__main__':
   create = iCreate()
-  col = 160*2 #width of the input image
+  col = 160 #width of the input image
   pastDir = 1 #intial turning direction to look for blobs
   while not rospy.is_shutdown(): #while interupt is not hit
       #get the ar markers(in a list) currently found by the create
