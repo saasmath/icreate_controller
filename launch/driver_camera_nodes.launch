@@ -1,18 +1,9 @@
 <launch>
   <node name="icreate_driver" pkg="irobot_create_2_1" type="driver.py" />
-  
-  <node name="icreate_watcher" pkg="icreate_controller" type="icreate_watcher.py" />
-  
   <node pkg="uvc_cam2" type="sender" name="uvc_cam2" output="screen">
     <param name="width" type="int" value="160" />
     <param name="height" type="int" value="120" />
     <param name="fps" type="int" value="30" />
     <param name="motion_threshold_luminance" type="int" value="255" />
   </node>
-  
-  <node pkg="ar_recog" type="ar_recog" name="ar_recog" output="screen" cwd="node">
-    <remap from="image" to="camera/image_raw"/>
-    <remap from="camera_info" to="camera/camera_info"/>
-  </node>  
-  <rosparam> aov: .67 </rosparam>
 </launch>

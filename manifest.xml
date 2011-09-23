@@ -11,6 +11,7 @@
   <depend package="rospy"/>
   <depend package="roscpp"/>
   <depend package="irobot_create_2_1"/>
+  <depend package="ar_recog"/>
   <depend package="opencv2"/>
   <depend package="cv_bridge"/>
   <depend package="image_geometry"/>

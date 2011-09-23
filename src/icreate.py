@@ -10,6 +10,7 @@ import os
 import time 
 import cv
 from sensor_msgs.msg import Image
+from ar_recog.msg import *
 from cv_bridge import CvBridge, CvBridgeError
 
 #==============================================================
@@ -18,12 +19,13 @@ from cv_bridge import CvBridge, CvBridgeError
 class iCreate:
   
   #================================  
-  def __init__(self,sensorCallBack=None,imageCallBack=None,imageTopic="/camera/image_raw"): 
+  def __init__(self,sensorCallBack=None,imageCallBack=None,imageTopic="/camera/image_raw",arCallBack=None): 
     """
       initialize a new icreate and start its ROS node along with its subsribers and services
         sensorCallBack-the callback function that is used when new sensor data is received, called with iCreate,sensor_name,sensor_value
         imageCallBack-the callback function that is used when new image data is received, called with iCreate,camera_image
         imageTopic-the image topic subcribed to
+        arCallBack-the callback function that is used when ar markers are found in the enviroment, called with iCreate, tags_list
     """
     #start ros node and services
     rospy.init_node('iCreateController')
@@ -39,6 +41,11 @@ class iCreate:
     self._skipframes = False #frame skipping variables
     self._numFrameSkip = 3
     self._currFrameNum = 1
+    
+    #setup ar subscriber
+    self._arcall = arCallBack
+    self._arSub = rospy.Subscriber("/tags",Tags,self._arsubcall)
+    self._arTags = None
     
     #setup sensor subscriber
     self._initSensors = False
@@ -107,6 +114,17 @@ class iCreate:
         print "Failed to convert image: %s" %e
     else:
       self._currFrameNum += 1
+  
+  #================================  
+  def _arsubcall(self,tags):
+    """
+      ar marker subscriber callback
+    """
+    self._arTags = tags.tags #set this
+    #send ar marker data to exterior callback if it exists
+    #and if there are tags found in the current image
+    if(self._arcall!=None and len(self._arTags)>0):
+      self._arcall(self,self._arTags)
   
   #================================  
   def _sensorsubcall(self,data): 
@@ -206,6 +224,14 @@ class iCreate:
       return the current frame of video as a cv mat
     """
     return self._currFrame
+  
+  #================================  
+  def getARMarkers(self):
+    """
+      return all the ar markers in the current image frame as a list of Tag msg structures,
+      found here: http://code.google.com/p/brown-ros-pkg/source/browse/trunk/experimental/ar_recog/msg/Tag.msg
+    """
+    return self._arTags
   
   #================================
   def toggleFrameSkipping(self,toggle):
