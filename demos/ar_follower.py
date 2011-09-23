@@ -15,7 +15,7 @@ from icreate import *
 def getClosestMarker(markers):
   cmarker = markers[0]
   for x in range(1,len(markers)):
-    if(markers[x].diameter > cmarker.diameter):
+    if(markers[x].diameter < cmarker.diameter):
       cmarker = markers[x]
   return cmarker
 
