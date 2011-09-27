@@ -53,7 +53,7 @@ class color_finder:
   #function to process the color and gray images from camera
   #and return a new processed image, could be used to implement
   #segmentation in the future
-  def processImage(self,color,gray):
+  def processImage(self,color,gray): #input color image, gray image
     return color #currently just returns color back
     #edge = cv.CreateMat(gray.rows, gray.cols, gray.type)
     #cv.Canny(gray,edge,.4,.6)
@@ -63,7 +63,9 @@ class color_finder:
   #and projects it on the second window
   def window1Callback(self,event, x, y, flags, param):
     if(event == cv.CV_EVENT_LBUTTONDOWN): #left clicked
+      #get processed image from colorImage and grayImage
       self.segImage = self.processImage(self.colorImage,self.grayImage)
+      #display processed image
       cv.ShowImage("Color Finder2",self.segImage) 
       cv.WaitKey(3) 
   
